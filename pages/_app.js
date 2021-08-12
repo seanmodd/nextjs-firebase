@@ -7,10 +7,10 @@ import SEO from 'next-seo.config';
 import theme from 'styles/theme';
 import GlobalStyle from 'styles/styles';
 import 'styles/css/nprogress.css';
-
 import Star from 'components/other/Star';
 import Footer from 'components/other/Footer';
 import Home from 'components/other/Home';
+import { AuthProvider } from '../auth';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps, router }) {
 
       <GlobalStyle>
         {/* <Star /> */}
-        <Home />
+
         <AnimatePresence exitBeforeEnter>
           <MotionBox
             key={router.route}
@@ -40,7 +40,10 @@ function MyApp({ Component, pageProps, router }) {
               exit: { opacity: 0, y: 10 },
             }}
           >
-            <Component {...pageProps} />
+            <AuthProvider>
+              <Home />
+              <Component {...pageProps} />
+            </AuthProvider>
           </MotionBox>
         </AnimatePresence>
         <Footer />
